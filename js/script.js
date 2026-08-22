@@ -16,22 +16,21 @@
   items.forEach(el => io.observe(el));
 })();
 
-// Category filter pills on projects.html
-(function initProjectFilter(){
-  const pills = document.querySelectorAll('.filter-pill');
-  const cards = document.querySelectorAll('.proj-card');
-  if (!pills.length || !cards.length) return;
+// Category tabs on projects.html — each tab shows its own separate project list
+(function initProjectTabs(){
+  const tabs = document.querySelectorAll('.filter-pill[data-tab]');
+  const panels = document.querySelectorAll('.projects-page-grid[id^="panel-"]');
+  if (!tabs.length || !panels.length) return;
 
-  pills.forEach(pill => {
-    pill.addEventListener('click', () => {
-      const category = pill.getAttribute('data-filter');
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const target = 'panel-' + tab.getAttribute('data-tab');
 
-      pills.forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
 
-      cards.forEach(card => {
-        const match = category === 'all' || card.getAttribute('data-category') === category;
-        card.classList.toggle('is-hidden', !match);
+      panels.forEach(panel => {
+        panel.classList.toggle('is-active', panel.id === target);
       });
     });
   });
